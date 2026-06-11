@@ -14,76 +14,91 @@
  * Output modifier cards have no data types
  */
 
+// actually do I want to put in browser events here
+
 var cardData = {
 
-	standardInput: [{
-		name: "touch-table or tablet (iPad)",
-		modOut: "person",
-		output: "event(touch happens) vector(touch position) state(is touched)"
+	htmlInput: [{
+		name: "button",
+		desc: "It's a button!",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event)"
+	}, {
+		name: "checkbox",
+		desc: "Allows a single value to be selected/deselected",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) text(value) state(checked <br> true or false)"
+	}, {
+		name: "color",
+		desc: "Opens a colour picker...<br>but you can't control its appearance :(",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) text(hexdecimal colour)"
+	}, {
+		name: "date",
+		desc: "Opens a date picker",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) text(date in yyyy-mm-dd format)"
+	}, {
+		name: "file",
+		desc: "Opens a file picker for user upload. Type of file can be restricted",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) text(file path) text(file name/size/type)"
+	}, {
+		name: "number",
+		desc: "A spinner for entering numbers. Can set min, max and step amount",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) value(value)"
+	}, {
+		name: "radio",
+		desc: "Allows a single value to be selected. When used as a group selection is mutually exclusive",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) value(value)"
+	}, {
+		name: "range",
+		desc: "A slider for selecting a number between min and max values. Can also set step amount",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) value(value)"
+	}, {
+		name: "text",
+		desc: "single line text field - see textarea (not on cards) for larger amounts of text input",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) text(value)"
 	}, {
 		name: "time",
-		desc: "a value that always ticks forward",
+		desc: "Opens a time picker...<br> except on Firefox desktop",
+		modIn: "person",
+		modOut: "HTML",
+		output: "DOMevent(DOM Event) text(time in 24 hour HH:mm or HH:mm:ss format)"
+	},
+
+	],
+
+	standardInput: [{
+		name: "time",
+		desc: "a value that always ticks forward, measured as the number of nanoseconds since the Unix epoch (midnight at the beginning of January 1, 1970, UTC)",
 		output: "value"
 	}, {
-		name: "webcam",
-		desc: "camera that creates images",
-		modOut: "sensor",
-		output: "image"
-	}, {
-		name: "Rock Band guitar",
-		desc: "Harmonix plastic guitar with buttons and a tilt sensor",
-		modOut: "person",
-		output: "event(activate star power) state(fret buttons) event(strum up) event(strum down)",
-
-	}, {
-		name: "DDR Pad",
-		desc: "A pressure-sensitive dance pad",
-		modOut: "person",
-		output: "event(foot down) event(foot up) state(currently pressed)",
-
-	}, {
-		name: "microphone",
-		desc: "audio input",
-		modOut: "sensor",
-
-		output: "waveform"
-	}, {
-		name: "satellite location",
-		desc: "Where is this sensor in the world?",
-		modOut: "sensor",
-
-		output: "geolocation"
-	}, {
-		name: "accelerometer",
-		desc: "Which way is this sensor tilted?",
-		modOut: "sensor",
-
-		output: "value(accelerationX) value(accelerationY) value(accelerationZ)"
-	}, {
-		name: "gyroscope",
-		desc: "Measure the rate of rotation",
-		modOut: "sensor",
-
-		output: "value(X rotation) value(Y rotation) value(Z rotation)"
-	}, {
-		name: "magnetometer",
-		desc: "Which way is north?",
-		modOut: "sensor",
-
-		output: "value(direction)"
+		name: "device location",
+		desc: "Where is this device in the world? Using the geolocation API prompts user permissions",
+		output: "value(latitude) value(longitude)"
 	}, {
 		name: "keyboard",
-		modOut: "person",
+		modIn: "person",
 		desc: "make text or key-events",
-		output: ["event(key pressed)", "text"]
-	}, {
-		name: "MIDI keyboard",
-		modOut: "person",
-		desc: "a piano keyboard, or other midi controller",
-		output: ["event(key pressed)", "value(key intensity)", "waveform(synthesized music)"]
+		output: "DOMevent(key down) DOMevent(key up)"
 	}, {
 		name: "mouse",
-		output: ["vector(pointer position)", "event(left mouse button)", "event(right mouse button)", "state(mouse being held)"]
+		modIn: "person",
+		output: "vector(cursor position) DOMevent(left/right mouse button down) DOMevent(left/right mouse button up) DOMevent(mouse wheel)"
 	}, {
 		name: "pseudorandom number generator",
 		desc: "Generate a random value!",
@@ -93,24 +108,9 @@ var cardData = {
 	// CONTENT FROM THE REAL WORLD
 	contentInputs: [{
 		name: "generative text",
-		desc: "use a grammar, neural network, or a Markov chain to create generative text when an even occurs.",
+		desc: "use a grammar or a Markov chain to create generative text when an event occurs.",
 		input: "event",
 		output: "text(generated text)"
-	}, {
-		name: "Twitter feed",
-		modOut: "person",
-		desc: "detect when someone tweets with this hashtag, or tweets to this account",
-		output: ["event(when tweeted)", "text(tweet contents)"]
-	}, {
-		name: "stock market data",
-		desc: "Current value of the stock market",
-
-		output: "value"
-	}, {
-		name: "Google trend value",
-		desc: "Current search ranking of keywords",
-		input: "*text",
-		output: "value"
 	}, {
 		name: "music",
 		desc: "MP3s, OGGs, and WAVs",
@@ -125,159 +125,116 @@ var cardData = {
 		output: "text"
 	}, ],
 
-	highTech: [{
-		name: "Leap Motion",
-		desc: "commercial hand-tracking camera",
-		modOut: "person",
-		output: "graph(joint positions) trimesh(hand model)"
+	eventListeners: [{
+		name: "Input Event",
+		input: "DOMevent",
+		desc: "Fires when user modifies an input element's value, such as accepting selected colour from picker",
+		modOut: "JS",
+		output: "value(value) JS(custom function)"
 	}, {
-		name: "Neurosky MindWave",
-		titleScale: .94,
-		modOut: "person",
-		desc: "EEG headset that detects 5 kinds of brain waves",
-		output: ["value(alpha wave)", "value(gamma wave)", "value (beta wave)", "value(delta wave)", "value(theta wave)"],
-		link: "http://neurosky.com/2015/05/greek-alphabet-soup-making-sense-of-eeg-bands/"
+		name: "Change Event",
+		input: "DOMevent",
+		desc: "Fires when user changes an input element's value, such as changing the colour in the picker window",
+		modOut: "JS",
+		output: "value(value) JS(custom function)"
 	}, {
-		name: "Kinect",
-		desc: "commercial infrared depth sensor by Microsoft",
-		modOut: "sensor",
-
-		output: "depthmap(camera depth per pixel) graph(graph of joint positions)"
+		name: "Focus Event",
+		input: "DOMevent",
+		desc: "Fires when user focuses on an element, such as clicking a text input to start typing",
+		modOut: "JS",
+		output: "value(value) HTML(element losing focus) JS(custom function)"
 	}, {
-		name: "gamepad",
-		desc: "gamepads have many different configuration, but most of them have the same kinds of outputs",
-		modOut: "sensor",
-
-		output: "vector(joystick) event(button) state(trigger)"
+		name: "Blur Event",
+		input: "DOMevent",
+		desc: "Fires when element loses its focus, such as clicking away from text input after typing",
+		modOut: "JS",
+		output: "value(value) HTML(element gaining focus) JS(custom function)"
 	}, {
-		name: "Oculus Touch",
-		modOut: "sensor",
-		desc: "positional controls for the Oculus VR set",
-		output: "state(buttons) state(triggers) value(left joystick) value(right joystick) vector(position)"
+		name: "Mouse Move Event",
+		input: "DOMevent",
+		desc: "Fires when cursor is moved within element",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element cursor is hovering on) JS(custom function)"
+	}, {
+		name: "Mouse Enter Event",
+		input: "DOMevent",
+		desc: "Fires once when cursor moves over element",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element mouse entered) JS(custom function)"
+	}, {
+		name: "Mouse Leave Event",
+		input: "DOMevent",
+		desc: "Fires once when leaves out of element",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element mouse left) JS(custom function)"
+	}, {
+		name: "Click Event",
+		input: "DOMevent",
+		desc: "Fires when mouse button pressed and released over single element. Also fires when space or enter keys pressed while element is focused",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element clicked) state(isPrimary true or false) JS(custom function)"
+	}, {
+		name: "Mouse Down Event",
+		input: "DOMevent",
+		desc: "Fires when mouse button pressed over element",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element clicked) value(button pressed) JS(custom function)"
+	}, {
+		name: "Mouse Up Event",
+		input: "DOMevent",
+		desc: "Fires when mouse button released over element",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element clicked) value(button released) JS(custom function)"
+	}, {
+		name: "Key Down Event",
+		input: "DOMevent",
+		desc: "Fires when a key is pressed",
+		modOut: "JS",
+		output: "value(key pressed) HTML(text element if focused) JS(custom function)"
+	}, {
+		name: "Key Up Event",
+		input: "DOMevent",
+		desc: "Fires when a key is released",
+		modOut: "JS",
+		output: "value(key released) HTML(text element if focused) JS(custom function)"
+	}, {
+		name: "Wheel Event",
+		input: "DOMevent",
+		desc: "Fires when user moves mouse wheel (or similar) - different from scroll event",
+		modOut: "JS",
+		output: "value(horizontal scroll amount) value(vertical scroll amount) HTML(element cursor is over) JS(custom function)"
+	}, {
+		name: "Scroll Event",
+		input: "DOMevent",
+		desc: "Fires when an element is scrolled - see also scrollend event",
+		modOut: "JS",
+		output: "HTML(element scrolled) JS(custom function)"
+	}, {
+		name: "Drag Events",
+		input: "DOMevent",
+		desc: "A collection of events, drag, dragend, dragenter, dragleave, dragover, dragstart and drop, related to drag and drop interactions",
+		modOut: "JS",
+		output: "vector(cursor position) HTML(element being dragged) JS(custom function)"
+	}, {
+		name: "Hold",
+		input: "DOMevent",
+		desc: "Track if a button/key is held by comparing down/up events. Must be written as a custom script",
+		modOut: "JS",
+		output: "JS(custom function)"
 	}],
-
-
-	// ARDUINO-TYPE ELECTRONIC SENSORS
-	arduinoSensors: [{
-		name: "photoresistor",
-		modOut: "sensor",
-		desc: "detect ambient light through a variable resistor (may detect infrared, ultraviolet, or visible light)",
-		output: ["value(amount of light detected)"]
-	}, {
-		name: "heart-rate sensor",
-		desc: "detect the user's heartbeat over time<br>(light-based or electrocardiograph with electrodes)",
-		output: "waveform(pulse) value(beats per minute)",
-		modOut: "person",
-	}, {
-		name: "breathalyzer",
-		desc: "detect the amount of alcohol in someone's breath",
-		output: "value(Blood Alcohol Content)",
-		modOut: "person",
-
-	}, {
-		name: "bend sensor",
-		modOut: "sensor",
-		desc: "bending the sensor changes resistance.<br>You can make your own out of anti-static bags!",
-		output: "value(amount of bend)"
-	}, {
-		name: "sound sensor",
-		modOut: "sensor",
-		desc: "detect ambient noise, wind, or someone blowing",
-		output: ["value(sound amplitude)"]
-	}, {
-		name: "speed detector",
-		desc: "detect the speed of cars, bikes, or pedestrians",
-		modOut: "person",
-
-		output: "value(speed)"
-	}, {
-		name: "piezo sensors",
-		desc: "Creates an electrical charge when tapped or squeezed or vibrated",
-		modOut: "sensor",
-
-		output: "value(resulting electrical output)"
-	}, {
-		name: "laser-beam switch",
-		desc: "fire a laser and use a light sensor to detect whether the beam is disturbed",
-		modOut: "sensor",
-
-		output: "state(whether the laser is currently disturbed) event(disturbance detected!)"
-	}, {
-		name: "potentiometer",
-		desc: "a knob to turn, like a stereo tuner",
-		modOut: "sensor",
-
-		output: "value(amount rotated)"
-	}, {
-		name: "button",
-		desc: "It's a button!<br>Press it, hold it, or click it",
-		modOut: "sensor",
-
-		output: "event(touch happens) state(is touched)"
-	}, {
-		name: "distance sensor",
-		modOut: "sensor",
-		desc: "detect distance from the sensor to an object.<br>Works better with hard objects than soft objects.",
-		output: "value(calculated distance) value(time of flight)"
-	}, {
-		name: "tilt switch",
-		desc: "a simple mechanical switch that closes when tilted",
-		modOut: "sensor",
-
-		output: "event(close happens) event(open happens) state(is closed)"
-	}, ],
-
-
-	// BIG SENSORS SUITED TO A SIMULATION
-
-	installationSensors: [{
-		name: "swing",
-		desc: "a 'smart' swing that can detect when it is swinging, and how fast",
-		modOut: "person",
-
-		output: "value(speed) state(is swinging) event(changes direction)"
-	}, {
-		name: "shadows",
-		desc: "Something casts shadows on a surface. A camera detects the shadows and how dark they are.",
-		modOut: "sensor",
-
-		output: "depthmap(black & white image of the shadows) shape(calculated shadow borders)"
-	}, {
-		name: "spinnable wheel",
-		desc: "a wheel that can tell how fast it is being spun",
-		modOut: "person",
-
-		output: "value(speed) state(is spinning) event(changes direction)"
-	}, {
-		name: "conductive object",
-		titleScale: 1,
-		desc: "an object that can sense touch by using the user's skin conductivity to close a circuit",
-		modOut: "sensor",
-
-		output: "event(touched!) state(is touched) value(conductivity)"
-	}, {
-		name: "microbe tracking",
-		desc: "Attach a webcam to a microscope to watch microbes moving or mold growing.<br>Look at them go!",
-		output: "particle(microbe positions) depthmap(mold density)"
-	}, {
-		name: "laser pointers",
-		modOut: "person",
-		desc: "detected laser point positions via camera",
-		output: "particle(laser pointer positions)"
-	}],
-
-
 	// TRANSFORMATIONS
 
 	signalProcessing: [{
 		name: "Fast Fourier Transform",
 		input: "waveform",
 		desc: "Turn an audio signal into multiple frequencies",
+		modOut: "tone",
 		output: "value value value value value"
 	}, {
 		name: "audio analysis",
 		input: "waveform(source audio)",
-		desc: "Detect beats, current pitch, and more",
+		desc: "Detect current volume",
+		modOut: "tone",
 		output: "event(beat happens) value(current pitch) value(BPM)"
 	}],
 

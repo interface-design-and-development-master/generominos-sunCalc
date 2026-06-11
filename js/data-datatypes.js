@@ -42,6 +42,24 @@ var dataTypes = {
 		shadow: inputShadow,
 		faint: inputFaint
 	},
+	HTML: {
+		isSensor: true,
+		color: inputColor,
+		shadow: inputShadow,
+		faint: inputFaint
+	},
+	JS: {
+		isSensor: true,
+		color: inputColor,
+		shadow: inputShadow,
+		faint: inputFaint
+	},
+	tone: {
+		isSensor: true,
+		color: inputColor,
+		shadow: inputShadow,
+		faint: inputFaint
+	},
 
 	sensor: {
 		isSensor: true,
@@ -49,7 +67,7 @@ var dataTypes = {
 		shadow: inputShadow,
 		faint: inputFaint
 	},
-value: {
+	value: {
 		color: waveColor,
 		shadow: waveShadow,
 		faint: waveFaint,
@@ -64,6 +82,12 @@ value: {
 	},
 
 	event: {
+		color: "hsla(5, 80%, 80%, 1)",
+		shadow: "hsla(5, 60%, 40%, 1)",
+		faint: "hsla(5, 60%, 93%, 1)",
+		desc: "Events are things that happen instantaneously, like a key press or button click"
+	},
+	DOMevent: {
 		color: "hsla(5, 80%, 80%, 1)",
 		shadow: "hsla(5, 60%, 40%, 1)",
 		faint: "hsla(5, 60%, 93%, 1)",
